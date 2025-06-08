@@ -81,6 +81,11 @@ body {
     cursor: default;
 }
 
+.flagged {
+    background-color: yellow;
+    color: black;
+}
+
 .mine {
     background-color: red;
 }

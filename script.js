@@ -10,6 +10,7 @@ var touchStartX = 0;
 var touchStartY = 0;
 var longPressThreshold = 500; // milliseconds for a long press
 var moveThreshold = 10; // pixels of movement to cancel long press
+var actualMineCount = 15;
 
 // Create Board
 function createBoard() {
@@ -23,7 +24,7 @@ function createBoard() {
     }
 
     // Generate random mine locations
-    var mineCount = 15;
+    var mineCount = actualMineCount;
     while (mineCount > 0) {
         var x = Math.floor(Math.random() * width);
         var y = Math.floor(Math.random() * width);
@@ -118,9 +119,11 @@ function flagCell(cell) {
 
     if (cell.innerText === '*') {
         cell.innerText = '';
+        cell.classList.remove('flagged');
         flags--;
-    } else if (flags < 15) { // Assuming 15 mines, don't allow flagging more than mines
+    } else if (flags < actualMineCount) {
         cell.innerText = '*';
+        cell.classList.add('flagged');
         flags++;
     }
     checkWin();
