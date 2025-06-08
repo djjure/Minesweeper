@@ -55,6 +55,7 @@ function flagCell(cell) {
         cell.innerText = '*';
         flags++;
     }
+    checkWin();
 }
 
 
