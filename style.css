@@ -96,11 +96,12 @@ body {
 }
 
 /* Number colors (standard Minesweeper) - these are generally well-supported */
-.cell[data-x][data-y][class*="number-cell"][innerText="1"] { color: blue; }
-.cell[data-x][data-y][class*="number-cell"][innerText="2"] { color: green; }
-.cell[data-x][data-y][class*="number-cell"][innerText="3"] { color: red; }
-.cell[data-x][data-y][class*="number-cell"][innerText="4"] { color: darkblue; }
-.cell[data-x][data-y][class*="number-cell"][innerText="5"] { color: darkred; }
-.cell[data-x][data-y][class*="number-cell"][innerText="6"] { color: teal; }
-.cell[data-x][data-y][class*="number-cell"][innerText="7"] { color: black; }
-.cell[data-x][data-y][class*="number-cell"][innerText="8"] { color: gray; }
+/* Number colors (standard Minesweeper) - NEW METHOD */
+.number-1 { color: blue; }
+.number-2 { color: green; }
+.number-3 { color: red; }
+.number-4 { color: darkblue; }
+.number-5 { color: darkred; }
+.number-6 { color: teal; }
+.number-7 { color: black; } /* Often very dark gray or black */
+.number-8 { color: gray; }

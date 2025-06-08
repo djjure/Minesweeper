@@ -145,7 +145,9 @@ function clickCell(cell) {
         cell.classList.add('revealed');
         if (count > 0) {
             cell.innerText = count;
-            cell.classList.add('number-cell'); // Add a class to identify number cells
+            // Add a class specifically for the number
+            cell.classList.add('number-cell'); // Keep this for general number styling if needed
+            cell.classList.add('number-' + count); // <-- THIS IS THE KEY CHANGE
             checkWin();
         } else {
             checkWin();
@@ -300,6 +302,17 @@ function checkWin() {
             var c = cells[i];
             c.style.pointerEvents = 'none'; // Disable further clicks
         }
+
+        // Show all mines that were not flagged
+        for (var i = 0; i < width; i++) {
+            for (var j = 0; j < width; j++) {
+                var cell = document.querySelector('[data-x="'+i+'"][data-y="'+j+'"]');
+                if (mineLocations[i][j] && !cell.classList.contains('flagged')) {
+                    cell.innerText = '*'; // Show all mines
+                }
+            }
+        }
+
         alert('You Win!'); // Consider a less intrusive UI for mobile
     }
 }
