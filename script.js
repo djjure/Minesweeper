@@ -106,6 +106,9 @@ function revealAdjacentCells(x, y) {
             if (newX >= 0 && newX < width && newY >= 0 && newY < width) {
                 let adjacentCell = document.querySelector(`[data-x="${newX}"][data-y="${newY}"]`);
                 if (adjacentCell && !adjacentCell.classList.contains('revealed') && adjacentCell.innerText !== '*') {
+                    if (gameover) return;
+                    checkWin();
+                    if (gameover) return;
                     clickCell(adjacentCell);
                 }
             }
@@ -126,6 +129,32 @@ function gameOver(cell) {
         }
     });
     alert('Game Over!');
+}
+
+// Check for Win
+function checkWin() {
+    let cells = document.querySelectorAll('.cell');
+    let revealedCount = 0;
+    let nonMineCount = 0;
+
+    for (let i = 0; i < width; i++) {
+        for (let j = 0; j < width; j++) {
+            if (!mineLocations[i][j]) {
+                nonMineCount++;
+            }
+        }
+    }
+
+    cells.forEach(cell => {
+        if (cell.classList.contains('revealed')) {
+            revealedCount++;
+        }
+    });
+
+    if (revealedCount === nonMineCount) {
+        gameover = true;
+        alert('You Win!');
+    }
 }
 
 createBoard();
