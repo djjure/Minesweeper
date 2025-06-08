@@ -7,7 +7,7 @@ let gameover = false;
 
 // Create Board
 function createBoard() {
-    mineLocations = Array(10).fill(null).map(() => Array(10).fill(false));
+    mineLocations = Array(width).fill(null).map(() => Array(width).fill(false));
     // Generate random mine locations
     let mineCount = 15;
     while (mineCount > 0) {
@@ -73,7 +73,9 @@ function clickCell(cell) {
         if (count > 0) {
             cell.innerText = count;
             cell.classList.add('number-cell'); // Add a class to identify number cells
+            checkWin();
         } else {
+            checkWin();
             revealAdjacentCells(x, y);
         }
     }
