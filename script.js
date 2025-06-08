@@ -28,7 +28,11 @@ function createBoard() {
             board.appendChild(cell);
 
             cell.addEventListener('click', function(e) {
-                clickCell(cell);
+                if (cell.classList.contains('number-cell')) {
+                    revealAdjacentCells(parseInt(cell.getAttribute('data-x')), parseInt(cell.getAttribute('data-y')));
+                } else {
+                    clickCell(cell);
+                }
             });
 
             cell.addEventListener('contextmenu', function(e) {
@@ -67,6 +71,7 @@ function clickCell(cell) {
         cell.classList.add('revealed');
         if (count > 0) {
             cell.innerText = count;
+            cell.classList.add('number-cell'); // Add a class to identify number cells
         } else {
             revealAdjacentCells(x, y);
         }
@@ -100,7 +105,7 @@ function revealAdjacentCells(x, y) {
             let newY = y + j;
             if (newX >= 0 && newX < width && newY >= 0 && newY < width) {
                 let adjacentCell = document.querySelector(`[data-x="${newX}"][data-y="${newY}"]`);
-                if (adjacentCell && !adjacentCell.classList.contains('revealed')) {
+                if (adjacentCell && !adjacentCell.classList.contains('revealed') && adjacentCell.innerText !== '*') {
                     clickCell(adjacentCell);
                 }
             }
