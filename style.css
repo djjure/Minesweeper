@@ -10,6 +10,7 @@ body {
     grid-gap: 1px;
     border: 1px solid black;
     margin: 20px auto;
+    width: fit-content;
 }
 
 .cell {

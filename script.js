@@ -157,4 +157,23 @@ function checkWin() {
     }
 }
 
+
+
+// Start Game
+function startGame() {
+    let x, y, count;
+    do {
+        x = Math.floor(Math.random() * width);
+        y = Math.floor(Math.random() * width);
+        count = countAdjacentMines(x, y);
+    } while (mineLocations[x][y] || count > 0);
+
+    let cell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+    clickCell(cell);
+}
+
+
 createBoard();
+
+startGame();
+
