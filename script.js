@@ -30,9 +30,29 @@ function createBoard() {
             cell.addEventListener('click', function(e) {
                 clickCell(cell);
             });
+
+            cell.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                flagCell(cell);
+            });
         }
     }
 }
+
+// Flag Cell
+function flagCell(cell) {
+    if (gameover) return;
+    if (cell.classList.contains('revealed')) return;
+
+    if (cell.innerText === '*') {
+        cell.innerText = '';
+        flags--;
+    } else {
+        cell.innerText = '*';
+        flags++;
+    }
+}
+
 
 // Click on Cell
 function clickCell(cell) {
