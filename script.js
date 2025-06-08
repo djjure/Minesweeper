@@ -1,26 +1,35 @@
 
 const board = document.getElementById('board');
 const width = 10;
-let mineLocations = [];
-let flags = 0;
-let gameover = false;
+var mineLocations = [];
+var flags = 0;
+var gameover = false;
 
 // Create Board
 function createBoard() {
-    mineLocations = Array(width).fill(null).map(() => Array(width).fill(false));
+    // recreate bellow with [] and push instead of Array
+    //mineLocations = Array(width).fill(null).map(() => Array(width).fill(false));
+    mineLocations = [];
+    for (var i = 0; i < width; i++) {
+        mineLocations[i] = [];
+        for (var j = 0; j < width; j++) {
+            mineLocations[i][j] = false; // Initialize all cells as non-mine
+        }
+    }
+
     // Generate random mine locations
-    let mineCount = 15;
+    var mineCount = 15;
     while (mineCount > 0) {
-        let x = Math.floor(Math.random() * width);
-        let y = Math.floor(Math.random() * width);
+        var x = Math.floor(Math.random() * width);
+        var y = Math.floor(Math.random() * width);
         if (!mineLocations[x][y]) {
             mineLocations[x][y] = true;
             mineCount--;
         }
     }
 
-    for (let i = 0; i < width; i++) {
-        for (let j = 0; j < width; j++) {
+    for (var i = 0; i < width; i++) {
+        for (var j = 0; j < width; j++) {
             const cell = document.createElement('div');
             cell.classList.add('cell');
             cell.setAttribute('data-x', i);
@@ -62,13 +71,13 @@ function flagCell(cell) {
 // Click on Cell
 function clickCell(cell) {
     if (gameover) return;
-    let x = parseInt(cell.getAttribute('data-x'));
-    let y = parseInt(cell.getAttribute('data-y'));
+    var x = parseInt(cell.getAttribute('data-x'));
+    var y = parseInt(cell.getAttribute('data-y'));
 
     if (mineLocations[x][y]) {
         gameOver(cell);
     } else {
-        let count = countAdjacentMines(x, y);
+        var count = countAdjacentMines(x, y);
         cell.classList.add('revealed');
         if (count > 0) {
             cell.innerText = count;
@@ -83,12 +92,12 @@ function clickCell(cell) {
 
 // Count Adjacent Mines
 function countAdjacentMines(x, y) {
-    let count = 0;
-    for (let i = -1; i <= 1; i++) {
-        for (let j = -1; j <= 1; j++) {
+    var count = 0;
+    for (var i = -1; i <= 1; i++) {
+        for (var j = -1; j <= 1; j++) {
             if (i === 0 && j === 0) continue;
-            let newX = x + i;
-            let newY = y + j;
+            var newX = x + i;
+            var newY = y + j;
             if (newX >= 0 && newX < width && newY >= 0 && newY < width) {
                 if (mineLocations[newX][newY]) {
                     count++;
@@ -101,13 +110,13 @@ function countAdjacentMines(x, y) {
 
 // Reveal Adjacent Cells
 function revealAdjacentCells(x, y) {
-    for (let i = -1; i <= 1; i++) {
-        for (let j = -1; j <= 1; j++) {
+    for (var i = -1; i <= 1; i++) {
+        for (var j = -1; j <= 1; j++) {
             if (i === 0 && j === 0) continue;
-            let newX = x + i;
-            let newY = y + j;
+            var newX = x + i;
+            var newY = y + j;
             if (newX >= 0 && newX < width && newY >= 0 && newY < width) {
-                let adjacentCell = document.querySelector(`[data-x="${newX}"][data-y="${newY}"]`);
+                var adjacentCell = document.querySelector('[data-x="'+newX+'"][data-y="'+newY+'"]');
                 if (adjacentCell && !adjacentCell.classList.contains('revealed') && adjacentCell.innerText !== '*') {
                     if (gameover) return;
                     checkWin();
@@ -122,37 +131,37 @@ function revealAdjacentCells(x, y) {
 // Game Over
 function gameOver(cell) {
     gameover = true;
-    let cells = document.querySelectorAll('.cell');
-    cells.forEach(c => {
-        let x = parseInt(c.getAttribute('data-x'));
-        let y = parseInt(c.getAttribute('data-y'));
+    var cells = document.querySelectorAll('.cell');
+    for (var c of cells) {
+        var x = parseInt(c.getAttribute('data-x'));
+        var y = parseInt(c.getAttribute('data-y'));
         if (mineLocations[x][y]) {
             c.classList.add('mine');
             c.innerText = "*";
         }
-    });
+    };
     alert('Game Over!');
 }
 
 // Check for Win
 function checkWin() {
-    let cells = document.querySelectorAll('.cell');
-    let revealedCount = 0;
-    let nonMineCount = 0;
+    var cells = document.querySelectorAll('.cell');
+    var revealedCount = 0;
+    var nonMineCount = 0;
 
-    for (let i = 0; i < width; i++) {
-        for (let j = 0; j < width; j++) {
+    for (var i = 0; i < width; i++) {
+        for (var j = 0; j < width; j++) {
             if (!mineLocations[i][j]) {
                 nonMineCount++;
             }
         }
     }
 
-    cells.forEach(cell => {
+    for (var cell of cells) {
         if (cell.classList.contains('revealed')) {
             revealedCount++;
         }
-    });
+    };
 
     if (revealedCount === nonMineCount) {
         gameover = true;
@@ -164,14 +173,14 @@ function checkWin() {
 
 // Start Game
 function startGame() {
-    let x, y, count;
+    var x, y, count;
     do {
         x = Math.floor(Math.random() * width);
         y = Math.floor(Math.random() * width);
         count = countAdjacentMines(x, y);
     } while (mineLocations[x][y] || count > 0);
 
-    let cell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+    var cell = document.querySelector('[data-x="'+x+'"][data-y="'+y+'"]');
     clickCell(cell);
 }
 
