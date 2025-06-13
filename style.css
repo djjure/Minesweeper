@@ -11,9 +11,9 @@ body {
 
 #board {
     /* Revert to older layout method like float */
-    /* Calculate width: 10 cells * 60px + 9 gaps * 1px + 2 * 1px board border */
-    width: 611px; /* (10*60) + (9*1) + (2*1) */
-    height: 611px; /* Ensure height matches width for a square board with floats */
+    /* Calculate width: 12 cells * 60px + 14 gaps * 1px + 2 * 1px board border */
+    width: 733px; /* (12*60) + (11*1) + (2*1) */
+    height: 733px; /* Ensure height matches width for a square board with floats */
 
     border: 1px solid black;
     margin: 20px auto;
@@ -61,7 +61,7 @@ body {
 }
 
 /* Remove margin-right for cells in the last column */
-#board .cell:nth-child(10n) {
+#board .cell:nth-child(12n) {
     margin-right: 0;
 }
 

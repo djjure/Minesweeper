@@ -1,3 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Loading Game...</title>
+</head>
+<body>
+
+    <h1>Loading your saved Minesweeper game...</h1>
+
+    <script id="game-template" type="text/html">
+
+<html>
+<head>
+    <title>Minesweeper</title>
+    <style>
+body {
+    font-family: sans-serif;
+    text-align: center;
+    /* Prevent text selection and default touch actions */
+    user-select: none;
+    -webkit-user-select: none; /* For Safari */
+    touch-action: manipulation;
+    -webkit-touch-action: manipulation; /* For Safari */
+    -webkit-touch-callout: none; /* iOS Safari specific: prevents a long-press from showing a callout bubble on links/images */
+}
+
+#board {
+    /* Revert to older layout method like float */
+    /* Calculate width: 12 cells * 60px + 14 gaps * 1px + 2 * 1px board border */
+    width: 733px; /* (12*60) + (11*1) + (2*1) */
+    height: 733px; /* Ensure height matches width for a square board with floats */
+
+    border: 1px solid black;
+    margin: 20px auto;
+    
+    /* Ensure border is included in width/height calculation */
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box; /* For Safari */
+}
+
+/* Clearfix for the floated cells within the board */
+#board::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.cell {
+    width: 60px;
+    height: 60px;
+    border: 1px solid gray;
+    
+    /* Use float to arrange cells in a grid-like manner */
+    float: left;
+    
+    /* Create 1px gap using margins */
+    margin-right: 1px;
+    margin-bottom: 1px;
+
+    /* Ensure border and margin are included in width/height calculation */
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box; /* For Safari */
+
+    text-align: center;
+    /* Vertically center single-line text using line-height */
+    line-height: 60px; /* Make line-height equal to cell height */
+    font-size: 50px;
+    font-weight: bold; /* Added from the JS suggested CSS */
+
+    cursor: pointer;
+    /* Prevent text selection and default touch actions on cells */
+    user-select: none;
+    -webkit-user-select: none; /* For Safari */
+    touch-action: manipulation;
+    -webkit-touch-action: manipulation; /* For Safari */
+}
+
+/* Remove margin-right for cells in the last column */
+#board .cell:nth-child(12n) {
+    margin-right: 0;
+}
+
+/* You might want to remove margin-bottom for cells in the last row as well,
+but for 10x10 and fixed board height, it's often not strictly necessary
+unless you want the board to dynamically shrink without the bottom margin.
+If needed, this targets the last 10 cells:
+#board .cell:nth-last-child(-n + 10) {
+    margin-bottom: 0;
+}
+Note: :nth-last-child might have limited support on very old Safari.
+*/
+
+
+.revealed {
+    background-color: lightgray;
+    cursor: default;
+}
+
+.flagged {
+    background-color: yellow;
+    color: black;
+}
+
+.mine {
+    background-color: red;
+}
+
+.hit-mine {
+    background-color: darkred; /* Added from the JS suggested CSS */
+    color: white; /* Added for hit mine text */
+}
+
+/* Number colors (standard Minesweeper) - these are generally well-supported */
+/* Number colors (standard Minesweeper) - NEW METHOD */
+.number-1 { color: blue; }
+.number-2 { color: green; }
+.number-3 { color: red; }
+.number-4 { color: darkblue; }
+.number-5 { color: darkred; }
+.number-6 { color: teal; }
+.number-7 { color: black; } /* Often very dark gray or black */
+.number-8 { color: gray; }        
+    </style>
+</head>
+<body>
+    <h1>Minesweeper</h1>
+    <div id="board"></div>
+    <h2></h2>
+    <button id="restartButton" style="padding: 10px 20px; font-size: 1.2em; margin-top: 20px;">Restart</button>
+    <button id="solveButton" style="padding: 10px 20px; font-size: 1.2em; margin-top: 20px;">Solve</button>
+    <script type="text/javascript">
 const board = document.getElementById('board');
 const width = 12;
 var mineLocations = [];
@@ -576,8 +707,8 @@ function solveStep() {
                 // We want to minimize the number of `allUnknown` neighbors (which includes flagged ones)
                 // because this is a rough proxy for how many potential mines are directly adjacent.
                 if (guessInfo.allUnknown.length < minUnknownNeighbors) {
-                     minUnknownNeighbors = guessInfo.allUnknown.length;
-                     bestGuessCell = guessCell;
+                    minUnknownNeighbors = guessInfo.allUnknown.length;
+                    bestGuessCell = guessCell;
                 }
             }
 
@@ -660,4 +791,37 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    var restartButton = document.getElementById('restartButton');
+    if (restartButton) {
+        restartButton.addEventListener('click', function() {
+            if (solverIntervalId) {
+                // If solver is running, stop it
+                stopSolver();
+            }
+            
+            startGame();
+        });
+    }    
 });
+    </script>
+</body>
+</html>
+
+    </script>
+    
+    <script>
+        var template = document.getElementById('game-template');
+        var encodedGameHtml = encodeURIComponent(template.innerHTML);
+        var dataUrl = 'data:text/html;charset=utf-8,' + encodedGameHtml;
+        if (dataUrl.length > 65000) {
+            document.body.innerHTML = '<h1>Error: The saved game file is too large to be loaded on this device.</h1>' +
+                                        '<p>The final URL (' + dataUrl.length + ' characters) exceeds the browser\'s limit of ~65,000 characters.</p>' +
+                                        '<p><b>How to fix:</b> You need to "minify" the HTML pasted into this file to make it smaller.</p>';
+            throw new Error("Data URL is too long: " + dataUrl.length);
+        }
+        window.location.href = dataUrl;
+    </script>
+
+</body>
+</html>
