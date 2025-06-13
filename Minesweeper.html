@@ -114,10 +114,8 @@ body {
 </head>
 <body>
     <h1>Minesweeper</h1>
-    <h3 id="mineCount">Mines: <span id="minesRemaining"></span></h3>
-
+    <h3 id="mineCount">Mines: <span id="minesRemaining"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="gameOver"></span></h3>
     <div id="board"></div>
-    <h2></h2>
     <button id="restartButton" style="padding: 10px 20px; font-size: 1.2em; margin-top: 20px;">Restart</button>
     <button id="solveButton" style="padding: 10px 20px; font-size: 1.2em; margin-top: 20px;">Solve</button>
     <script type="text/javascript">
@@ -415,7 +413,7 @@ function gameOver(hitCell) {
         hitCell.classList.add('hit-mine'); // Highlight the mine that was hit
     }
 
-    var cell = document.querySelector('h2');
+    var cell = document.getElementById('gameOver');
     if (cell) {
         cell.innerText = 'Game Over!'; // Update the header to indicate game over
     }
@@ -464,7 +462,7 @@ function checkWin() {
 
         minesRemainingDisplay.innerText = 0;
 
-        var cell = document.querySelector('h2');
+        var cell = document.getElementById('gameOver');
         if (cell) {
             cell.innerText = 'You Win!'; // Update the header to indicate win
         }
@@ -745,7 +743,7 @@ function solveStep() {
 function startGame() {
     // Reset game state for a new game
     gameover = false;
-    var cell = document.querySelector('h2');
+    var cell = document.getElementById('gameOver');
     if (cell) {
         cell.innerText = '' // Update the header to indicate win
     }
