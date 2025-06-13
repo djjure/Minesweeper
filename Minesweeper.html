@@ -462,6 +462,8 @@ function checkWin() {
             }
         }
 
+        minesRemainingDisplay.innerText = 0;
+
         var cell = document.querySelector('h2');
         if (cell) {
             cell.innerText = 'You Win!'; // Update the header to indicate win
