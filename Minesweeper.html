@@ -292,8 +292,8 @@ function clickCell(cell) {
             cell.classList.add('number-' + count); // <-- THIS IS THE KEY CHANGE
             checkWin();
         } else {
-            checkWin();
             revealAdjacentCells(x, y); // Only reveal adjacent if count is 0
+            checkWin();
         }
     }
 }
